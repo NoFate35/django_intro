@@ -31,6 +31,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+	'hexlet_django_blog',
+    'hexlet_django_blog.article',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
