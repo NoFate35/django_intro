@@ -1,5 +1,8 @@
 [tool.poetry]
 name = "django-intro"
+packages = [
+{ include = "hexlet_django_blog" },
+]
 version = "0.1.0"
 description = ""
 authors = ["NoFate35 <vsokol35@mail.ru>"]
