@@ -1,10 +1,16 @@
 from django.shortcuts import render
+from django.http import HttpResponse
 
+"""
 
+def index(request):
+    return HttpResponse("article")
+
+"""
 def index(request):
     return render(
         request,
-        "index.html",
+        "articles/index.html",
         context={
             "app": "articles",
         },

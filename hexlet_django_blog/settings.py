@@ -9,11 +9,12 @@ https://docs.djangoproject.com/en/5.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
-
 from pathlib import Path
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
 
 
 # Quick-start development settings - unsuitable for production
@@ -24,6 +25,8 @@ SECRET_KEY = 'django-insecure-_&leb$fylzk6=i@2t_+md%2=sa27xuqj3k#q!jpv734xg*lnfa
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+print('BASE_DIR', BASE_DIR)
+
 
 ALLOWED_HOSTS = []
 
@@ -55,9 +58,10 @@ ROOT_URLCONF = 'hexlet_django_blog.urls'
 
 TEMPLATES = [
     {
-        'DIRS': [BASE_DIR / 'templates'],
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+        BASE_DIR/ 'templates',
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
