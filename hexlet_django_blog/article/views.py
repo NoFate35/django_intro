@@ -1,17 +1,28 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, get_object_or_404
 from django.views import View
-from django.urls import reverse
+
+from hexlet_django_blog.article.models import Article
 
 class IndexView(View):
-    def get(self, request, tags, article_id):
+    def get(self, request):
+        articles = Article.objects.all()[:15]
         return render(
-        request,
-        "articles/index.html",
-        context={
-            "tags": tags,
-            "article_id": article_id,
-        },
-    )
+            request,
+            "articles/index.html",
+            context={
+                "articles": articles,
+            },
+        )
 
-def home_pageView(request):
-    return redirect (reverse('article', kwargs={'tags':'python', 'article_id':'42'}) )
+class ArticleView(View):
+    def get(self, request, *args, **kwargs):
+        article_name = kwargs["name"]
+        print('article_name', article_name)
+        article = get_object_or_404(Article, name=article_name)
+        return render(
+            request,
+            "articles/show.html",
+            context={
+                "article": article,
+            },
+        )
