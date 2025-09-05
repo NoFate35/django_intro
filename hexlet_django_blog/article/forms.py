@@ -1,4 +1,5 @@
 from django.forms import ModelForm
+from django import forms
 from hexlet_django_blog.article.models import ArticleComment
 
 from .models import Article
@@ -10,6 +11,8 @@ class ArticleCommentForm(ModelForm):
 
 
 class ArticleForm(ModelForm):
+    name = forms.CharField(max_length=5, required=True)
+    body = forms.CharField(max_length=10, required=True)
     class Meta:
         model = Article
         fields = ["name", "body"]
