@@ -11,8 +11,8 @@ class ArticleCommentForm(ModelForm):
 
 
 class ArticleForm(ModelForm):
-    name = forms.CharField(max_length=5, required=True)
-    body = forms.CharField(max_length=10, required=True)
+    name = forms.CharField(max_length=100, required=True)
+    body = forms.CharField(max_length=200, required=True)
     class Meta:
         model = Article
         fields = ["name", "body"]

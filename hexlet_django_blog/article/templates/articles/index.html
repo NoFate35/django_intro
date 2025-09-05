@@ -14,5 +14,6 @@
         <h3>{{ article.id }}</h3>
         <h2>{{ article.name }}</h2>
         <div>{{ article.body|slice:":200" }}</div>
+        <a href="{% url 'articles_update' id=article.id %}">Править</a>
     {% endfor %}
 {% endblock %}
