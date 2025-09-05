@@ -1,7 +1,9 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.views import View
 
 from hexlet_django_blog.article.models import Article
+
+from django.contrib import messages
 
 class IndexView(View):
     def get(self, request):
@@ -28,18 +30,27 @@ class ArticleView(View):
             },
         )
 
-from  hexlet_django_blog.article.forms import ArticleCommentForm
-from  hexlet_django_blog.article.models import ArticleComment
+from  hexlet_django_blog.article.forms import ArticleCommentForm, ArticleForm
 
 
 class CommentArticleView(View):
     def post(self, request, *args, **kwargs):
         form = ArticleCommentForm(request.POST)
         if form.is_valid():
-        	form.save()
-
+            form.save()
+                    
     def get(self, request, *args, **kwargs):
         form = ArticleCommentForm()
-        return render(
-            request, "articles/comment_form.html", {"form": form}
-        )
+        return render(request, "articles/comment_form.html", {"form": form})
+
+class ArticleFormCreateView(View):
+    def get(self, request, *args, **kwargs):
+        form = ArticleForm()
+        return render(request, "articles/create.html", {"form": form})
+    def post(self, request, *args, **kwargs):
+        form = ArticleForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.add_message(request, messages.SUCCESS, "SUCCSESSSSS!!!")
+            return redirect('articles')
+        return render(request, 'articles/create.html', {'form': form})
