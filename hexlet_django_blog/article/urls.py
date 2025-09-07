@@ -6,6 +6,6 @@ urlpatterns = [
     path("comment/", views.CommentArticleView.as_view(), name='comment_create'),
     path("create/", views.ArticleFormCreateView.as_view(), name="articles_create"),
     path("<int:id>/edit/", views.ArticleFormEditView.as_view(), name="articles_update"),
+    path("<int:id>/delete/", views.ArticleFormDeleteView.as_view(), name="articles_delete"),
     path("<str:name>/", views.ArticleView.as_view()),
-    
-    ]
+]

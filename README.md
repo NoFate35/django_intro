@@ -7,3 +7,5 @@ https://docs.djangoproject.com/en/5.2/ref/contrib/messages/ флеш сообщ�
 
 https://docs.djangoproject.com/en/5.2/topics/auth/default/ система аутентификации
 
+https://docs.djangoproject.com/en/5.2/howto/static-files/ про удаление
+
