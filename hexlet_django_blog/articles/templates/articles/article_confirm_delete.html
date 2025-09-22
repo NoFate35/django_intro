@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container mt-4">
+        <h2>Подтверждение удаления</h2>
+        <div class="alert alert-warning">
+            <p>Вы уверены, что хотите удалить статью "{{ article.title }}"?</p>
+            <p class="text-muted">Это действие нельзя будет отменить.</p>
+        </div>
+
+        <form method="POST">
+            {% csrf_token %}
+            <div class="btn-group">
+                <button type="submit" class="btn btn-danger">Да, удалить</button>
+                <a href="{% url 'article_detail' article.id %}" class="btn btn-secondary">Отмена</a>
+            </div>
+        </form>
+    </div>
+{% endblock %}
