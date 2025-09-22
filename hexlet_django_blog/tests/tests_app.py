@@ -9,7 +9,7 @@ class ArticleTest(TestCase):
 
     def test_create_article(self):
         response = self.client.get("/articles/create/")
-        self.assertTemplateUsed(resptest:poetry run python3 manage.py test tests/onse, "articles/form.html")
+        self.assertTemplateUsed(response, "articles/form.html")
 
         data = {"title": "Test title", "content": "Test content"}
         response = self.client.post("/articles/create/", data=data)
