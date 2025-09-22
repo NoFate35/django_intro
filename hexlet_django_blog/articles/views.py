@@ -18,5 +18,14 @@ class ArticleDetailView(View):
 
 
 # BEGIN (write your solution here)
+class ArticleFormView(View):
+    def get(self, request, *args, **kwargs):
+        form = ArticleForm()
+        return render(request, "articles/create.html", {"form": form})
+    def post(self, request, *args, **kwargs):
+        form = ArticleForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('article_list')
 
 # END

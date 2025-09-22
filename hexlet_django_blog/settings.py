@@ -45,7 +45,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'hexlet_django_blog',
-#    'hexlet_django_blog.article',
     'hexlet_django_blog.articles',
 ]
 
@@ -65,7 +64,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-        BASE_DIR/ 'templates/articles',
+        BASE_DIR/ 'templates',
         ],
         'APP_DIRS': True,
         'OPTIONS': {

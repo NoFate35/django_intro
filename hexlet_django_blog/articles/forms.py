@@ -5,6 +5,7 @@ from .models import Article
 
 # BEGIN (write your solution here)
 class ArticleForm(forms.ModelForm):
-    model = Article
-    fields = ["title", "content"]
+    class Meta:
+        model = Article
+        fields = ["title", "content"]
 # END
