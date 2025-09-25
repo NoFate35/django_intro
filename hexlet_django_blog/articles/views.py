@@ -18,14 +18,48 @@ class ArticleDetailView(View):
 
 
 # BEGIN (write your solution here)
+
 class ArticleFormView(View):
     def get(self, request, *args, **kwargs):
         form = ArticleForm()
-        return render(request, "articles/create.html", {"form": form})
+        return render(request, "articles/form.html", {"form": form})
+
     def post(self, request, *args, **kwargs):
         form = ArticleForm(request.POST)
         if form.is_valid():
             form.save()
             return redirect('article_list')
 
+class ArticleFormUpdateView(View):
+     def get(self, request, *args, **kwargs):
+        article_id = kwargs.get("id")
+        article = Article.objects.get(id=article_id)
+        form = ArticleForm(instance=article)
+        return render(
+            request, "articles/form.html", {"form": form, "article_id": article_id}
+        )
+     def post(self, request, *args, **kwargs):
+         article_id = kwargs.get("id")
+         article = Article.objects.get(id=article_id)
+         form = ArticleForm(request.POST, instance=article)
+         if form.is_valid():
+             form.save()
+             return redirect("article_list")
+         return render(request, "articles/form.html", {"form": form, "article_id": article_id})
+
+class ArticleFormDeleteView(View):
+    def get (self, request, *args, **kwargs):
+        article_id = kwargs.get("id")
+        print('article iiid:', article_id)
+        article = Article.objects.get(id=article_id)
+        print('article:', article.body)
+        if article:
+           return render(request, "articles/article_confirm_delete.html", {"article_id": article_id})
+
+    def post(self, request, *args, **kwargs):
+        article_id = kwargs.get("id")
+        article = Article.objects.get(id=article_id)
+        if article:
+            article.delete()
+        return redirect("article_list")
 # END

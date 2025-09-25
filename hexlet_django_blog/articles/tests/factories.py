@@ -1,16 +1,15 @@
-import factory
-import factory.random
+from faker import Faker
 
-from simple_blog.articles.models import Article
+from hexlet_django_blog.articles.models import Article
 
 SEED = 4321
+fake = Faker()
+Faker.seed(4321)
 
-factory.random.reseed_random(SEED)
 
+def article_factory():
+    return Article.objects.create(
+            title = fake.sentence(nb_words=5), 
+            body = fake.text(max_nb_chars=200)) 
+        
 
-class ArticleFactory(factory.django.DjangoModelFactory):
-    class Meta:
-        model = Article
-
-    title = factory.Faker("sentence", nb_words=5)
-    content = factory.Faker("paragraph", nb_sentences=5, variable_nb_sentences=False)

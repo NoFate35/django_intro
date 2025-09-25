@@ -4,6 +4,12 @@
 
 <h1>{% if form.instance.pk %}Редактировать{% else %}Создать{% endif %} статью</h1>
 <!--BEGIN (write your solution here)-->
-
+<form action="{% url 'article_create' %}" method="post">
+    {% csrf_token %}
+    <table border="1">
+    {{ form }}
+    </table>
+    <input type="submit" value="Создать">
+</form>
 <!--END-->
 {% endblock %}
