@@ -7,7 +7,7 @@
     <p class="text-muted">{{ article.created_at }}</p>
 
 <!-- BEGIN (write your solution here) -->
-<a class="btn btn-primary" href="{% url 'article_update' %}">Редактировать статью</a>
-<a class="btn btn-primary" href="{% url 'article_delete' %}">Удалить статью</a>
+<a class="btn btn-primary" href="{% url 'article_update' article.id %}">Редактировать статью</a>
+<a class="btn btn-primary" href="{% url 'article_delete' article.id%}">Удалить статью</a>
 <!--END-->
 {% endblock %}

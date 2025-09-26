@@ -32,29 +32,23 @@ class ArticleFormView(View):
 
 class ArticleFormUpdateView(View):
      def get(self, request, *args, **kwargs):
-        article_id = kwargs.get("id")
-        article = Article.objects.get(id=article_id)
+        article = get_object_or_404(Article, id=kwargs["id"])
         form = ArticleForm(instance=article)
         return render(
-            request, "articles/form.html", {"form": form, "article_id": article_id}
-        )
+            request, "articles/form.html", {"form": form} )
      def post(self, request, *args, **kwargs):
-         article_id = kwargs.get("id")
-         article = Article.objects.get(id=article_id)
+         article = get_object_or_404(Article, id=kwargs["id"])
          form = ArticleForm(request.POST, instance=article)
          if form.is_valid():
              form.save()
              return redirect("article_list")
-         return render(request, "articles/form.html", {"form": form, "article_id": article_id})
+         return render(request, "articles/form.html", {"form": form})
 
 class ArticleFormDeleteView(View):
     def get (self, request, *args, **kwargs):
-        article_id = kwargs.get("id")
-        print('article iiid:', article_id)
-        article = Article.objects.get(id=article_id)
-        print('article:', article.body)
+        article = get_object_or_404(Article, id=kwargs["id"])
         if article:
-           return render(request, "articles/article_confirm_delete.html", {"article_id": article_id})
+           return render(request, "articles/article_confirm_delete.html", {"article": article})
 
     def post(self, request, *args, **kwargs):
         article_id = kwargs.get("id")

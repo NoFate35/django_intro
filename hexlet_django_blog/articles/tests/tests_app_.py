@@ -9,8 +9,8 @@ class ArticleTest(TestCase):
         self.article2 = article_factory()
 
     def test_create_article(self):
-        print('aaaarticle 1', self.article1)
-        print('aaaarticle 2', self.article2)
+        #print('aaaarticle 1', self.article1)
+        #print('aaaarticle 2', self.article2)
         response = self.client.get("/articles/create/")
         self.assertTemplateUsed(response, "articles/form.html")
 
@@ -36,7 +36,7 @@ class ArticleTest(TestCase):
         response = self.client.get("/articles/")
         self.assertContains(response, self.article2.title)
 
-        print('self.article2.iiid', self.article2.id)
+        #print('self.article2.iiid', self.article2.id)
         response = self.client.get(f"/articles/{self.article2.id}/delete/")
         self.assertTemplateUsed(response, "articles/article_confirm_delete.html")
 

@@ -10,6 +10,6 @@ Faker.seed(4321)
 def article_factory():
     return Article.objects.create(
             title = fake.sentence(nb_words=5), 
-            body = fake.text(max_nb_chars=200)) 
+            content = fake.text(max_nb_chars=200)) 
         
 
