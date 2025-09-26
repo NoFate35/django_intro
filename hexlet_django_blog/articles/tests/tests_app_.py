@@ -1,12 +1,12 @@
 from django.test import TestCase
-from hexlet_django_blog.articles.tests.factories import article_factory
+from hexlet_django_blog.factories import ArticleFactory
 
 
 
 class ArticleTest(TestCase):
     def setUp(self):
-        self.article1 = article_factory()
-        self.article2 = article_factory()
+        self.article1 = ArticleFactory()
+        self.article2 = ArticleFactory()
 
     def test_create_article(self):
         #print('aaaarticle 1', self.article1)

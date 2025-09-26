@@ -7,8 +7,10 @@ from .models import Article
 
 class ArticleListView(View):
     def get(self, request, *args, **kwargs):
+    	query = request.GET.get('q', '')
         articles = Article.objects.all().order_by("-created_at")
-        return render(request, "articles/list.html", {"articles": articles})
+        return render(request, "articles/list.html", {"articles": articles,
+        'query': query,})
 
 
 class ArticleDetailView(View):

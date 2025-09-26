@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>
+        {% if comment %}Редактировать{% else %}Добавить{% endif %} комментарий
+        {% if article %}к "{{ article.title }}"{% endif %}
+    </h2>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">
+            {% if comment %}Редактировать{% else %}Добавить{% endif %} комментарий
+        </button>
+    </form>
+{% endblock %}

@@ -9,5 +9,57 @@
 <!-- BEGIN (write your solution here) -->
 <a class="btn btn-primary" href="{% url 'article_update' article.id %}">Редактировать статью</a>
 <a class="btn btn-primary" href="{% url 'article_delete' article.id%}">Удалить статью</a>
+
+  {% if user.is_authenticated %}
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5>Добавить комментарий</h5>
+            <form method="post" action="{% url 'comment_add' article.pk %}">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <input type="text" name="author"
+                           class="form-control"
+                           value="{{ user.username }}"
+                           readonly>
+                </div>
+                <div class="mb-3">
+                    <textarea name="text" class="form-control" rows="3"
+                              placeholder="Your comment"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Отправить</button>
+            </form>
+        </div>
+
+    </div>
+  {% else %}
+    <div class="text-center mb-4">
+        <form method="post" action="{% url 'login' %}">
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{{ request.path }}">
+            <button type="submit" class="btn btn-primary">Войдите чтобы оставить комментарий</button>
+        </form>
+    </div>
+  {% endif %}
+  {% for comment in article.comments.all %}
+        <div class="card mb-2">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <h6 class="card-subtitle mb-2 text-muted">
+                        {{ comment.author }} • {{ comment.created_at|timesince }} назад
+                    </h6>
+                    {% if user.is_authenticated and user.username == comment.author %}
+                        <a href="{% url 'comment_edit' comment.pk %}"
+                           class="btn btn-sm btn-outline-secondary">
+                            Редактировать
+                        </a>
+                    {% endif %}
+                </div>
+                <p class="card-text">{{ comment.text }}</p>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+{% endblock content %}
+
 <!--END-->
 {% endblock %}
