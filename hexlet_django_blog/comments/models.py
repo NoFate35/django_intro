@@ -1,6 +1,6 @@
 from django.db import models
 
-from simple_blog.articles.models import Article
+from hexlet_django_blog.articles.models import Article
 
 
 class Comment(models.Model):

@@ -4,8 +4,8 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.decorators import method_decorator
 from django.views import View
 
-from simple_blog.articles.models import Article
-from simple_blog.comments.models import Comment
+from hexlet_django_blog.articles.models import Article
+from hexlet_django_blog.comments.models import Comment
 
 from .forms import CommentForm
 
