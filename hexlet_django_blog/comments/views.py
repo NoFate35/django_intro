@@ -18,13 +18,14 @@ class CommentAddView(View):
 
     def post(self, request, *args, **kwargs):
         form = CommentForm(request.POST)
+        article_id = kwargs.get("article_id")
+        #print("aaarticle_id", article_id)
         if form.is_valid():
-        	print("aaarticle_id", kwargs.get('article_id'))
-        	print("aaauthor", form.cleaned_data['author'])
-        	print("tttext", form.cleaned_data['text'])
-        	#comment = Comment()
-        	form.save()
-        	return redirect('articles')
+        	comment_article = Article.objects.get(id=article_id)
+        	comment_author = form.cleaned_data['author']
+        	comment_text = form.cleaned_data['text']
+        	Comment.objects.create(article=comment_article, author=comment_author, text=comment_text)
+        	return render(request, "articles/detail.html", {"article": comment_article})
         return render(request, "comments/comment_form.html", {"form": form})
 
 class CommentEditView(View):
