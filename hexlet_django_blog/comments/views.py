@@ -12,6 +12,7 @@ from .forms import CommentForm
 
 # BEGIN (write your solution here)
 class CommentAddView(View):
+    @login_required
     def get(self, request, *args, **kwargs):
         form = CommentForm()
         return render(request, "comments/comment_form.html", {"form": form})
@@ -19,7 +20,6 @@ class CommentAddView(View):
     def post(self, request, *args, **kwargs):
         form = CommentForm(request.POST)
         article_id = kwargs.get("article_id")
-        #print("aaarticle_id", article_id)
         if form.is_valid():
         	comment_article = Article.objects.get(id=article_id)
         	comment_author = form.cleaned_data['author']
@@ -29,14 +29,21 @@ class CommentAddView(View):
         return render(request, "comments/comment_form.html", {"form": form})
 
 class CommentEditView(View):
+    @login_required
     def get(self, request, *args, **kwargs):
-        form = CommentForm()
+        comment_id = kwargs.get("pk")
+        comment = Comment.objects.get(id=comment_id)
+        form = CommentForm(instance=comment)
         return render(request, "comments/comment_form.html", {"form": form})
-
     def post(self, request, *args, **kwargs):
+        comment_id = kwargs.get("pk")
+        comment = Comment.objects.get(id=comment_id)
+        comment_article = comment.article
         form = CommentForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('articles')
+            comment.text = form.cleaned_data['text']
+            comment.save()
+            return render(request, "articles/detail.html", {"article": comment_article})
+        form = CommentForm(instance=comment)
         return render(request, "comments/comment_form.html", {"form": form})
 # END
