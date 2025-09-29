@@ -11,5 +11,31 @@ from .forms import CommentForm
 
 
 # BEGIN (write your solution here)
+class CommentAddView(View):
+    def get(self, request, *args, **kwargs):
+        form = CommentForm()
+        return render(request, "comments/comment_form.html", {"form": form})
 
+    def post(self, request, *args, **kwargs):
+        form = CommentForm(request.POST)
+        if form.is_valid():
+        	print("aaarticle_id", kwargs.get('article_id'))
+        	print("aaauthor", form.cleaned_data['author'])
+        	print("tttext", form.cleaned_data['text'])
+        	#comment = Comment()
+        	form.save()
+        	return redirect('articles')
+        return render(request, "comments/comment_form.html", {"form": form})
+
+class CommentEditView(View):
+    def get(self, request, *args, **kwargs):
+        form = CommentForm()
+        return render(request, "comments/comment_form.html", {"form": form})
+
+    def post(self, request, *args, **kwargs):
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('articles')
+        return render(request, "comments/comment_form.html", {"form": form})
 # END
