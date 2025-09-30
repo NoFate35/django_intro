@@ -10,6 +10,7 @@ from hexlet_django_blog.comments.models import Comment
 from .forms import CommentForm
 
 
+
 # BEGIN (write your solution here)
 class CommentAddView(View):
     @login_required
@@ -21,11 +22,11 @@ class CommentAddView(View):
         form = CommentForm(request.POST)
         article_id = kwargs.get("article_id")
         if form.is_valid():
-        	comment_article = Article.objects.get(id=article_id)
-        	comment_author = form.cleaned_data['author']
-        	comment_text = form.cleaned_data['text']
-        	Comment.objects.create(article=comment_article, author=comment_author, text=comment_text)
-        	return render(request, "articles/detail.html", {"article": comment_article})
+            comment_article = Article.objects.get(id=article_id)
+            comment_author = form.cleaned_data['author']
+            comment_text = form.cleaned_data['text']
+            Comment.objects.create(article=comment_article, author=comment_author, text=comment_text)
+            return redirect ('article_detail', {"id": comment_article.id})
         return render(request, "comments/comment_form.html", {"form": form})
 
 class CommentEditView(View):
@@ -34,8 +35,8 @@ class CommentEditView(View):
         comment_id = kwargs.get("pk")
         comment = Comment.objects.get(id=comment_id)
         if comment.author == request.user.username:
-        	form = CommentForm(instance=comment)
-        	return render(request, "comments/comment_form.html", {"form": form})
+            form = CommentForm(instance=comment)
+            return render(request, "comments/comment_form.html", {"form": form})
         return HttpResponse(status=403)
 
     def post(self, request, *args, **kwargs):
