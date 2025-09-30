@@ -29,12 +29,15 @@ class CommentAddView(View):
         return render(request, "comments/comment_form.html", {"form": form})
 
 class CommentEditView(View):
-    @login_required
+    @method_decorator(login_required)
     def get(self, request, *args, **kwargs):
         comment_id = kwargs.get("pk")
         comment = Comment.objects.get(id=comment_id)
-        form = CommentForm(instance=comment)
-        return render(request, "comments/comment_form.html", {"form": form})
+        if comment.author == request.user.username:
+        	form = CommentForm(instance=comment)
+        	return render(request, "comments/comment_form.html", {"form": form})
+        return HttpResponse(status=403)
+
     def post(self, request, *args, **kwargs):
         comment_id = kwargs.get("pk")
         comment = Comment.objects.get(id=comment_id)
