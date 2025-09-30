@@ -40,11 +40,9 @@ class ArticleFormUpdateView(View):
             request, "articles/form.html", {"form": form} )
      def post(self, request, *args, **kwargs):
          article = get_object_or_404(Article, id=kwargs["id"])
-         form = ArticleForm(request.POST)
+         form = ArticleForm(request.POST, instance=article)
          if form.is_valid():
-             article.title = form.cleaned_data['title']
-             article.content = form.cleaned_data['content']
-             article.save()
+             form.save()
              return redirect("article_list")
          return render(request, "articles/form.html", {"form": form})
 
