@@ -1,8 +1,8 @@
 import factory
 import factory.random
 
-from simple_blog.articles.models import Article
-from simple_blog.comments.models import Comment
+from hexlet_django_blog.articles.models import Article
+from hexlet_django_blog.comments.models import Comment
 
 SEED = 4321
 
@@ -14,7 +14,7 @@ class ArticleFactory(factory.django.DjangoModelFactory):
         model = Article
 
     title = factory.Faker("sentence", nb_words=5)
-    body = factory.Faker("paragraph", nb_sentences=5, variable_nb_sentences=True)
+    content = factory.Faker("paragraph", nb_sentences=5, variable_nb_sentences=True)
 
 
 class CommentFactory(factory.django.DjangoModelFactory):

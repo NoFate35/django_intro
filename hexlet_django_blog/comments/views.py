@@ -13,11 +13,12 @@ from .forms import CommentForm
 
 # BEGIN (write your solution here)
 class CommentAddView(View):
-    @login_required
+    @method_decorator(login_required)
     def get(self, request, *args, **kwargs):
         form = CommentForm()
         return render(request, "comments/comment_form.html", {"form": form})
 
+    @method_decorator(login_required(login_url="/login/"))
     def post(self, request, *args, **kwargs):
         form = CommentForm(request.POST)
         article_id = kwargs.get("article_id")
@@ -26,7 +27,7 @@ class CommentAddView(View):
             comment_author = form.cleaned_data['author']
             comment_text = form.cleaned_data['text']
             Comment.objects.create(article=comment_article, author=comment_author, text=comment_text)
-            return redirect ('article_detail', {"id": comment_article.id})
+            return redirect ('article_detail', comment_article.id)
         return render(request, "comments/comment_form.html", {"form": form})
 
 class CommentEditView(View):
@@ -39,15 +40,15 @@ class CommentEditView(View):
             return render(request, "comments/comment_form.html", {"form": form})
         return HttpResponse(status=403)
 
+    @method_decorator(login_required)
     def post(self, request, *args, **kwargs):
         comment_id = kwargs.get("pk")
         comment = Comment.objects.get(id=comment_id)
-        comment_article = comment.article
         form = CommentForm(request.POST)
-        if form.is_valid():
-            comment.text = form.cleaned_data['text']
-            comment.save()
-            return render(request, "articles/detail.html", {"article": comment_article})
-        form = CommentForm(instance=comment)
-        return render(request, "comments/comment_form.html", {"form": form})
+        if comment.author == request.user.username:
+            if form.is_valid():
+                comment.text = form.cleaned_data['text']
+                comment.save()
+                return redirect ('article_detail', comment.article.id)
+        return HttpResponse(status=403)
 # END
