@@ -12,43 +12,47 @@ from .forms import CommentForm
 
 
 # BEGIN (write your solution here)
+@method_decorator(login_required, name="dispatch")
 class CommentAddView(View):
-    @method_decorator(login_required)
+    template_name = "comments/comment_form.html"
     def get(self, request, *args, **kwargs):
+        article = get_object_or_404(Article, pk=kwargs.get("article_id"))
         form = CommentForm()
-        return render(request, "comments/comment_form.html", {"form": form})
+        return  render(request, "articles/detail.html", {"article": comment_article, "form": form})
 
-    @method_decorator(login_required(login_url="/login/"))
     def post(self, request, *args, **kwargs):
         form = CommentForm(request.POST)
-        article_id = kwargs.get("article_id")
+        comment_article = get_object_or_404(Article, pk=kwargs.get("article_id"))
         if form.is_valid():
-            comment_article = Article.objects.get(id=article_id)
-            comment_author = form.cleaned_data['author']
-            comment_text = form.cleaned_data['text']
-            Comment.objects.create(article=comment_article, author=comment_author, text=comment_text)
-            return redirect ('article_detail', comment_article.id)
-        return render(request, "comments/comment_form.html", {"form": form})
+            comment = form.save(commit=False)
+            comment.article = comment_article
+            comment.author = request.user.username
+            comment.save()
+            return redirect (comment_article.get_absolute_url())
+        return  render(request, self.template_name, {"article": comment_article, "form": form})
 
+
+@method_decorator(login_required, name="dispatch")
 class CommentEditView(View):
-    @method_decorator(login_required)
-    def get(self, request, *args, **kwargs):
-        comment_id = kwargs.get("pk")
-        comment = Comment.objects.get(id=comment_id)
-        if comment.author == request.user.username:
-            form = CommentForm(instance=comment)
-            return render(request, "comments/comment_form.html", {"form": form})
-        return HttpResponse(status=403)
+    
+    template_name = "comments/comment_form.html"
+    
+    def dispatch(self, request, *args, **kwargs):
+        self.comment = get_object_or_404(Comment, pk=kwargs["pk"])
+        if request.user.username != self.comment.author:
+            return HttpResponse(status=403)
+        return super().dispatch(request, *args, **kwargs)
 
-    @method_decorator(login_required)
+
+    def get(self, request, *args, **kwargs):
+            form = CommentForm(instance=self.comment)
+            return render(request, self.template_name, {"form": form})
+
+
     def post(self, request, *args, **kwargs):
-        comment_id = kwargs.get("pk")
-        comment = Comment.objects.get(id=comment_id)
-        form = CommentForm(request.POST)
-        if comment.author == request.user.username:
-            if form.is_valid():
-                comment.text = form.cleaned_data['text']
-                comment.save()
-                return redirect ('article_detail', comment.article.id)
-        return HttpResponse(status=403)
+        form = CommentForm(request.POST, instance=self.comment)
+        if form.is_valid():
+            form.save()
+            return redirect (self.comment.article.get_absolute_url())
+        return  render(request, self.template_name, {"article": self.comment.article, "form": form})
 # END
