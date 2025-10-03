@@ -24,3 +24,19 @@ class CommentFactory(factory.django.DjangoModelFactory):
     author = factory.Faker("name")
     text = factory.Faker("sentence", nb_words=4)
     article = factory.SubFactory(ArticleFactory)
+
+class CategoryFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = Category
+
+    name = factory.Faker("word")
+
+
+class ProductFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = Product
+
+    name = factory.Faker("sentence", nb_words=3)
+    price = factory.Faker("random_int", max=900, step=50)
+    description = factory.Faker("paragraph", nb_sentences=3, variable_nb_sentences=True)
+    category = factory.SubFactory(CategoryFactory)

@@ -1,0 +1,13 @@
+<div class="list-group">
+    <a href="{% url 'product_list' %}"
+       class="list-group-item list-group-item-action {% if not current_category_id %}active{% endif %}">
+        Все категории
+    </a>
+
+    {% for category in categories %}
+        <a href="{% url 'product_by_category' category.id %}"
+           class="list-group-item list-group-item-action {% if current_category_id == category.id %}active{% endif %}">
+            {{ category.name }}
+        </a>
+    {% endfor %}
+</div>

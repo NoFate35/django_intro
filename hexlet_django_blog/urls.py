@@ -26,4 +26,5 @@ urlpatterns = [
     path("logout/", views.logout_view, name="logout"),
     path("articles/", include("hexlet_django_blog.articles.urls")),
     path("comments/", include("hexlet_django_blog.comments.urls")),
+    path("products/", include("hexlet_django_blog.products.urls")),
 ]
