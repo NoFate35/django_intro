@@ -5,7 +5,7 @@ from django.views import View
 class ProductListView(View):
     def get(self, request, *args, **kwargs):
         query = request.GET.get('q', '')
-        products = Product.objects.all().order_by("-created_at")
+        products = Product.objects.all().order_by()
         return render(request, "products/product_list.html", {"products": products,
         'query': query,})
 
