@@ -14,3 +14,8 @@ class CategoryForm(forms.ModelForm):
     class Meta:
         model = Category
         fields = ["name"]
+
+class ProductChoiseForm(forms.ModelForm):
+	class Meta:
+		model = Product
+		fields = ["category"]

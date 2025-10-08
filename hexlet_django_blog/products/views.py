@@ -1,14 +1,14 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Product, Category
-from .forms import ProductForm, CategoryForm
+from .forms import ProductForm, CategoryForm, ProductChoiseForm
 from django.views import View
 
 class ProductListView(View):
     def get(self, request, *args, **kwargs):
-        query = request.GET.get('q', '')
+        category = get_object_or_404(Category, pk="category_id")
+        form = ProductChoiseForm()
         products = Product.objects.all().order_by()
-        return render(request, "products/product_list.html", {"products": products,
-        'query': query,})
+        return render(request, "products/product_list.html", {"products": products, 'form': form})
 
 class ProductDetailView(View):
     def get(self, request, *args, **kwargs):

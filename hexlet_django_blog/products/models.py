@@ -5,11 +5,6 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
-'''
-def get_categories():
-    categories = Category.objects.all()
-    return {category: category for category in categories}
-'''
 
 class Product(models.Model):
     name = models.CharField(max_length=200)
