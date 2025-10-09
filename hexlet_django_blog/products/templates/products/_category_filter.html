@@ -4,7 +4,7 @@
         Все категории
     </a>
 
-    <form action="{% url 'product_category' %}" method="post">
+    <form action="{% url 'product_list' %}" method="post">
     {% csrf_token %}
     <table border="1">
        {{ form }}

@@ -9,11 +9,14 @@ class ProductListView(View):
         form = ProductChoiseForm()
         if not category_id:
         	products = Product.objects.all()
-        products = Product.objects.filter(category=category_filter)
+        products = Product.objects.filter(category=category_id)
         return render(request, "products/product_list.html", {"products": products, 'form': form})
  
     def post(self, request, *args, **kwargs):
-    	category_filter = get_object_or_404(Category, id=category_id)
+        form = ProductChoiseForm(request.POST)
+        print("ffform", form['category'])
+        category_id = form.save(commit=False)
+        category_filter = get_object_or_404(Category, id=category_id)
         products = Product.objects.filter(category=category_filter)
         return render(request, "products/product_list.html", {"products": products, 'form': form})
 
