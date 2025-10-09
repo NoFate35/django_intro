@@ -5,10 +5,18 @@ from django.views import View
 
 class ProductListView(View):
     def get(self, request, *args, **kwargs):
-        category = get_object_or_404(Category, pk="category_id")
+        category_id = kwargs.get("category_id")
         form = ProductChoiseForm()
-        products = Product.objects.all().order_by()
+        if not category_id:
+        	products = Product.objects.all()
+        products = Product.objects.filter(category=category_filter)
         return render(request, "products/product_list.html", {"products": products, 'form': form})
+ 
+    def post(self, request, *args, **kwargs):
+    	category_filter = get_object_or_404(Category, id=category_id)
+        products = Product.objects.filter(category=category_filter)
+        return render(request, "products/product_list.html", {"products": products, 'form': form})
+
 
 class ProductDetailView(View):
     def get(self, request, *args, **kwargs):
