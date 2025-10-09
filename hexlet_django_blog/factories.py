@@ -3,6 +3,7 @@ import factory.random
 
 from hexlet_django_blog.articles.models import Article
 from hexlet_django_blog.comments.models import Comment
+from hexlet_django_blog.products.models import Category, Product
 
 SEED = 4321
 

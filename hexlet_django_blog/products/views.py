@@ -14,10 +14,8 @@ class ProductListView(View):
  
     def post(self, request, *args, **kwargs):
         form = ProductChoiseForm(request.POST)
-        print("ffform", form['category'])
-        category_id = form.save(commit=False)
-        category_filter = get_object_or_404(Category, id=category_id)
-        products = Product.objects.filter(category=category_filter)
+        selection = form.save(commit=False)
+        products = Product.objects.filter(category=selection.category)
         return render(request, "products/product_list.html", {"products": products, 'form': form})
 
 

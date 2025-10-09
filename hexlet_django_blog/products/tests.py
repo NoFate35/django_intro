@@ -1,5 +1,5 @@
 from django.test import TestCase
-from shop.factories import CategoryFactory, ProductFactory
+from hexlet_django_blog.factories import CategoryFactory, ProductFactory
 
 
 class CategoriesTest(TestCase):
