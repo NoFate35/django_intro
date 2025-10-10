@@ -9,9 +9,9 @@ class ProductListView(View):
         
         form = ProductChoiseForm()
         if not category_id:
-        	products = Product.objects.all()
+            products = Product.objects.all()
         else:
-        	products = Product.objects.filter(category=category_id)
+            products = Product.objects.filter(category=category_id)
         return render(request, "products/product_list.html", {"products": products, 'form': form})
  
     def post(self, request, *args, **kwargs):
