@@ -49,3 +49,36 @@ class ProductFormCreateView(View):
             form.save()
             return redirect('product_list')
         return render(request, 'products/product_create.html', {'form': form})   
+    
+    '''
+    class ProductListView(ListView):
+    model = Product
+    context_object_name = "products"
+    template_name = "product_list.html"
+    paginate = 10
+
+    def get_queryset(self):
+        category_id = self.kwargs.get("category_id")
+        if category_id:
+            self.category = get_object_or_404(Category, id=category_id)
+            return Product.objects.filter(category=self.category)
+        return Product.objects.all()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["categories"] = Category.objects.all()
+        context["current_category_id"] = self.kwargs.get("category_id")
+        return context
+
+
+class ProductDetailView(DetailView):
+    model = Product
+    context_object_name = "product"
+    template_name = "product_detail.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["categories"] = Category.objects.all()
+        context["current_category_id"] = self.object.category.id
+        return context
+    '''
