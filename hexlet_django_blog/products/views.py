@@ -6,18 +6,19 @@ from django.views import View
 class ProductListView(View):
     def get(self, request, *args, **kwargs):
         category_id = kwargs.get("category_id")
-        
         form = ProductChoiseForm()
         if not category_id:
             products = Product.objects.all()
+            categories = Category.objects.all()
         else:
             products = Product.objects.filter(category=category_id)
-        return render(request, "products/product_list.html", {"products": products, 'form': form})
+            categories = Category.objects.filter(pk=category_id)
+        return render(request, "products/product_list.html", {"products": products, 'form': form, 'categories': categories})
  
     def post(self, request, *args, **kwargs):
         form = ProductChoiseForm(request.POST)
-        category_id = form.save(commit=False)
-        category_filter = get_object_or_404(Category, id=category_id)
+        selection = form.save(commit=False)
+        category_filter = get_object_or_404(Category, id=selection.category.id)
         products = Product.objects.filter(category=category_filter)
         return render(request, "products/product_list.html", {"products": products, 'form': form})
 
