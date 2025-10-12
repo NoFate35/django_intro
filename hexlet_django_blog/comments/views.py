@@ -16,7 +16,7 @@ from .forms import CommentForm
 class CommentAddView(View):
     template_name = "comments/comment_form.html"
     def get(self, request, *args, **kwargs):
-        article = get_object_or_404(Article, pk=kwargs.get("article_id"))
+        comment_article = get_object_or_404(Article, pk=kwargs.get("article_id"))
         form = CommentForm()
         return  render(request, "articles/detail.html", {"article": comment_article, "form": form})
 
