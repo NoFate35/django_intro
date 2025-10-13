@@ -10,8 +10,6 @@ class ProductListView(ListView):
     context_object_name = "products"
     paginate = 10
 
-    def dispatch(self, request, *args, **kwargs):
-        return super().dispatch(request, *args, **kwargs)
 
     def get(self, request, *args, **kwargs):
         self.category_id = self.kwargs.get("category_id")
@@ -24,7 +22,7 @@ class ProductListView(ListView):
             selection = form.save(commit=False)
             self.category_id = selection.category.id
             self.form = form
-            return super().post(request, *args, **kwargs)
+            return redirect('product_by_category', self.category_id)
 
     def get_queryset(self):
         category_id = self.__dict__.get('category_id')
