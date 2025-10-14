@@ -12,6 +12,9 @@ In this course, I learned the basics of using Django to develop web applications
 * Managing the application from the command line
 * Integration testing, factories
 * ORM. Creating entities. Relationships
+### Installation
+The poetry project manager must be installed to work with the project
+
 ### Description
 The project is managed by the poetry project manager and consists of several applications: 
 * articles - full CRUD in Django
@@ -19,3 +22,4 @@ The project is managed by the poetry project manager and consists of several app
 * products - implemented product filtering.
 
 __Testing has been conducted__
+
