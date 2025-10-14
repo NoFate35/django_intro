@@ -17,6 +17,7 @@ The project is managed by the poetry project manager and consists of several app
 * articles - full CRUD in Django
 * comments - added a comment system
 * products - implemented product filtering.
-Testing has been conducted.
+####Testing has been conducted.
+
 
 
