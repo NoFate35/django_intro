@@ -14,7 +14,18 @@ In this course, I learned the basics of using Django to develop web applications
 * ORM. Creating entities. Relationships
 ### Installation
 The poetry project manager must be installed to work with the project
-
+```
+git clone https://github.com/NoFate35/django_intro.git
+cd django_intro
+poetry install
+make server
+```
+You should also have a .env file with the following contents:
+```
+DEBUG = True
+SECRET_KEY='django-insecure-_&leb$fylzk6=i@2t_+md%2=sa27xuqj3k#q!jpv734xg*lnfa'
+DATABASE_URL
+```
 ### Description
 The project is managed by the poetry project manager and consists of several applications: 
 * articles - full CRUD in Django
@@ -22,4 +33,5 @@ The project is managed by the poetry project manager and consists of several app
 * products - implemented product filtering.
 
 __Testing has been conducted__
+
 
