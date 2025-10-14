@@ -4,6 +4,16 @@ from .forms import ProductForm, CategoryForm, ProductChoiseForm
 from django.views import View
 from django.views.generic import DetailView, ListView
 
+
+class ProductListViewPost(View):
+	def post(self, request, *args, **kwargs):
+		current_category_id = kwargs.get("current_category_id")
+		form = kwargs.get("form")
+		products = Product.objects.filter(category=current_category_id)
+		categories = Category.objects.all()
+		return render (request, "products/product_list.html", {"form": form, "products": products, "categories": categories, "current_category_id": current_category_id})
+
+
 class ProductListView(ListView):
     model = Product
     template_name = "products/product_list.html"
@@ -21,8 +31,7 @@ class ProductListView(ListView):
         if form.is_valid():
             selection = form.save(commit=False)
             self.category_id = selection.category.id
-            self.form = form
-            return redirect('product_by_category', self.category_id)
+            return ProductListViewPost.as_view()(request, **{"form": form, "current_category_id": self.category_id})
 
     def get_queryset(self):
         category_id = self.__dict__.get('category_id')
@@ -36,11 +45,14 @@ class ProductListView(ListView):
         context["current_category_id"] = self.__dict__.get('category_id')
         context['form'] = self.form
         return context
-    
+
+
 class CategoryFormCreateView(View):
+
     def get(self, request, *args, **kwargs):
         form = CategoryForm()
         return render(request, "products/category_create.html", {"form": form})
+
     def post(self, request, *args, **kwargs):
         form = CategoryForm(request.POST)
         if form.is_valid():
@@ -49,17 +61,17 @@ class CategoryFormCreateView(View):
         return render(request, 'products/category_create.html', {'form': form})
 
 class ProductFormCreateView(View):
+
     def get(self, request, *args, **kwargs):
         form = ProductForm()
         return render(request, "products/product_create.html", {"form": form})
+
     def post(self, request, *args, **kwargs):
         form = ProductForm(request.POST)
         if form.is_valid():
             form.save()
             return redirect('product_list')
         return render(request, 'products/product_create.html', {'form': form})   
-    
-
 
 
 class ProductDetailView(DetailView):
