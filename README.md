@@ -9,6 +9,8 @@ In this course, I learned the basics of using Django to develop web applications
 * ORM. Creating entities. Relationships
 ### Description
 The project is managed by the poetry project manager and consists of several applications: 
-* articles
-* comments
-* products. Testing has been conducted.
+* articles - full CRUD in Django
+* comments - added a comment system
+* products - implemented product filtering
+Testing has been conducted.
+
